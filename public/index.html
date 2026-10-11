@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prometheus Recover · Estado</title>
+<style>
+:root{--bg:#0f1115;--card:#181b22;--text:#e8eaf0;--muted:#8b92a5;--ok:#3ddc84;--bad:#ff5d5d}
+@media(prefers-color-scheme:light){:root{--bg:#f3f4f8;--card:#fff;--text:#15171c;--muted:#5d6475}}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,sans-serif;padding:16px}
+.card{background:var(--card);border-radius:20px;padding:30px 26px;width:100%;max-width:380px;text-align:center}
+.dot{width:16px;height:16px;border-radius:50%;background:var(--muted);display:inline-block;margin-right:8px;vertical-align:middle}
+.on .dot{background:var(--ok);box-shadow:0 0 12px var(--ok)}.off .dot{background:var(--bad);box-shadow:0 0 12px var(--bad)}
+h1{font-size:1.3rem;margin:0 0 6px}.s{font-size:1.1rem;font-weight:600;margin:18px 0 6px}.m{color:var(--muted);font-size:.9rem}
+code{background:rgba(127,127,127,.2);padding:2px 6px;border-radius:6px}
+</style></head><body>
+<main class="card" id="c"><h1>Prometheus Recover</h1><div class="m">Bot de Discord en Vercel</div>
+<div class="s"><span class="dot"></span><span id="t">Comprobando…</span></div>
+<div class="m" id="d">&nbsp;</div>
+<p class="m">En Discord usa <code>/deobf</code> y adjunta tu archivo.</p></main>
+<script>
+fetch("/api/health",{cache:"no-store"}).then(r=>r.json()).then(d=>{
+  c.className="card "+(d.online?"on":"off");t.textContent=d.online?"Operativo 24/7":"Configuración incompleta";
+  d.online||(document.getElementById("d").textContent="Motor: "+(d.engine?"ok":"falta")+" · luac: "+(d.luac?"ok":"falta")+" · variables: "+(d.env?"ok":"faltan"));
+}).catch(()=>{c.className="card off";t.textContent="Sin conexión"});
+</script></body></html>
