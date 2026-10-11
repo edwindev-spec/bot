@@ -27,7 +27,10 @@ function readBody(req) {
 
 async function getRaw(req) {
   if (req.readable && !req.readableEnded) {
-    try { const b = await readBody(req); if (b.length) return b; } catch (e) {}
+    try {
+      const b = await Promise.race([readBody(req), new Promise((r) => setTimeout(() => r(Buffer.alloc(0)), 2000))]);
+      if (b.length) return b;
+    } catch (e) {}
   }
   const b = req.body;
   if (Buffer.isBuffer(b)) return b;
