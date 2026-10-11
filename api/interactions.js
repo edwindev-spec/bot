@@ -25,6 +25,17 @@ function readBody(req) {
   });
 }
 
+async function getRaw(req) {
+  if (req.readable && !req.readableEnded) {
+    try { const b = await readBody(req); if (b.length) return b; } catch (e) {}
+  }
+  const b = req.body;
+  if (Buffer.isBuffer(b)) return b;
+  if (typeof b === 'string') return Buffer.from(b);
+  if (b && typeof b === 'object') return Buffer.from(JSON.stringify(b));
+  return Buffer.alloc(0);
+}
+
 function verify(raw, signature, timestamp, publicKeyHex) {
   try {
     const key = crypto.createPublicKey({
