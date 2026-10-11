@@ -1,0 +1,8 @@
+{
+  "buildCommand": "node scripts/prepare.js",
+  "outputDirectory": "public",
+  "functions": {
+    "api/interactions.js": { "maxDuration": 300, "includeFiles": "vendor/**" },
+    "api/health.js": { "includeFiles": "vendor/**" }
+  }
+}
