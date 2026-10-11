@@ -123,7 +123,7 @@ async function process_(interaction, attachment) {
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).send("Method Not Allowed");
-  const raw = await readBody(req);
+  const raw = await getRaw(req);
   const sig = req.headers["x-signature-ed25519"];
   const ts = req.headers["x-signature-timestamp"];
   if (!sig || !ts || !process.env.DISCORD_PUBLIC_KEY || !verify(raw, sig, ts, process.env.DISCORD_PUBLIC_KEY)) {
